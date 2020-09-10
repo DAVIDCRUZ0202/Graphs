@@ -105,54 +105,55 @@ def bft(node):
         v = to_visit.dequeue()
 
     # 3. if it hasn't been visited:
-    if v not in visited:
+        if v not in visited:
 
-        # visit the node(print)
-        print(v)
+            # visit the node(print)
+            print(v)
 
-        # put it in the visited list.
-        visited.add(v)
+            # put it in the visited list.
+            visited.add(v)
 
-        # enqueue all of it's neighbors
-        for n in v.neighbors:
+            # enqueue all of it's neighbors
+            for n in v.neighbors:
 
-            print(f"Adding: {n}")
-            to_visit.enqueue(n)
+                print(f"Adding: {n}")
+                to_visit.enqueue(n)
+
+    # and that's it! Finished a breadth first traversal.
+    # this will enqueue the starting node, then it will encueue all of the neighbors
+    # of the starting node.
+    # this will print each node in breadth first fashion.
 
 
 def dft(node):
-    # create a queue to hold nodes to visit
+    # create a stack to hold nodes to visit
     to_visit = Stack()
 
     # create a set to hold visited nodes
     visited = set()
 
-    #initialize: add the starting node to the queue
+    #initialize: push the starting node to the stack
     to_visit.push(node)
 
     # while the queue is not empty
     while to_visit.size() > 0:
 
-    # 1. dequeue the first edntry
+    # 1. pop the first entry
         v = to_visit.pop()
 
     # 2. if it hasn't been visited:
-    if v not in visited:
+        if v not in visited:
 
-        # visit the node(print)
-        print(v)
+            # visit the node(print)
+            print(v)
 
-        # put it in the visited list.
-        visited.add(v)
+            # put it in the visited list.
+            visited.add(v)
 
-        # enqueue all of it's neighbors
-        for n in v.neighbors:
-            print(f"Adding: {n}")
-            to_visit.push(n)
-
-
-# take the first neighbor, and repeat 1, 2, 3, 4.
-
+            # push all of it's neighbors
+            for n in v.neighbors:
+                print(f"Pushing: {n}")
+                to_visit.push(n)
 
 
 # making some nodes
