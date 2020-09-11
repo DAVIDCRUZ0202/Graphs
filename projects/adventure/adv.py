@@ -10,8 +10,8 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-# map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
+map_file = "maps/test_line.txt"
+# map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
@@ -29,29 +29,26 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_graph = {}
 traversal_path = []
-traversal_graph[player.current_room.id] = {exit : '?' for exit in player.current_room.get_exits()}
 
-def traverse_graphing(player, traversal_graph, traversal_path):
-    old_room = player.current_room.id
+def dft(player, traversal_graph, traversal_path):
+    traversal_graph[player.current_room.id] = {exit : "?" for exit in player.current_room.get_exits()}
     s = Stack()
-    s.push((k, v) in traversal_graph[player.current_room.id].items())
-
+    visited = set()
+    s.push(random.choice(player.current_room.get_exits()))
     while s.size() > 0:
-
-        r, c = s.pop()
-
-        if c == '?':
-            traversal_path.append(r)
-            player.travel(r)
-            traversal_graph[old_room][r] = player.current_room.id
-
-        
-
+        move = s.pop()
+        old_room_id = player.current_room.id
+        if traversal_graph[player.current_room.id][move] == '?':
+            traversal_path.append(move)
+            player.travel(move)
+            traversal_graph[old_room_id][move] = player.current_room.id
+            #traversal_graph[player.current_room.id]
 
     return traversal_path
 
-traverse_graphing(player, traversal_graph, traversal_path)
-breakpoint()
+
+
+dft(player, traversal_graph)
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
