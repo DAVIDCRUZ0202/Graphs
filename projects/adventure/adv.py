@@ -10,8 +10,8 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+# map_file = "maps/test_line.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
@@ -29,44 +29,25 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_graph = {}
 traversal_path = []
-def bfs(self, player_current_room, player_target_room):
-    to_visit = Queue()
-    to_visit.enqueue(player.current_room)
-
-    visited = set()
-
-    while to_visit.size() > 0:
-
-        v = to_visit.dequeue()
-
-        v2 = v[-1]
-
-        if v2 not in visited:
-            if v2 == target_room:
-                return v
-            visited.add(v2)
-
-            for neighber in self.
-
-def dft(player, traversal_graph, traversal_path):
-    traversal_graph[player.current_room.id] = {exit : "?" for exit in player.current_room.get_exits()}
-    print(traversal_graph)
+def traverse(player, traversal_graph, traversal_path):
     s = Stack()
     visited = set()
-    s.push(random.choice(player.current_room.get_exits()))
-    
+    s.push(player.current_room.id)
     while s.size() > 0:
         move = s.pop()
-        if player.travel(move) not in visited:
-            traversal_graph[player.current_room.id][move] = player.travel(move)
-            visited.add(player.current_room.id)
-            visited.add(player.travel(move))
+        if move not in visited:
+            visited.add(move)
+            traversal_graph[move] = player.current_room.get_exits()
+            for path in traversal_graph[move]:
+                player.travel(path)
+                traversal_path.append(path)
+                s.push(player.current_room.id)
+                traversal_graph[player.current_room.id] = player.current_room.get_exits()
+            
+    return visited
 
-    return traversal_path
-
-
-
-dft(player, traversal_graph, traversal_path)
+traverse(player, traversal_graph, traversal_path)
+breakpoint()
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
@@ -95,4 +76,5 @@ else:
 #     elif cmds[0] == "q":
 #         break
 #     else:
+
 #         print("I did not understand that command.")
