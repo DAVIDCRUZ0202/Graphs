@@ -1,7 +1,7 @@
 from room import Room
 from player import Player
 from world import World
-
+from util import Stack
 import random
 from ast import literal_eval
 
@@ -29,19 +29,28 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_graph = {}
 traversal_path = []
+traversal_graph[player.current_room.id] = {exit : '?' for exit in player.current_room.get_exits()}
 
-def traverse_algo(player, traversal_graph, traversal_path):
-    traversal_graph[player.current_room.id] = {exit : '?' for exit in player.current_room.get_exits()}
-    for k, v in traversal_graph[player.current_room.id].items():
-        if v == '?':
-            old_room = player.current_room.id
-            random_move = random.choice(player.current_room.get_exits())
-            player.travel(random_move)
-            traversal_graph[old_room][random_move] = player.current_room.id
+def traverse_graphing(player, traversal_graph, traversal_path):
+    old_room = player.current_room.id
+    s = Stack()
+    s.push((k, v) in traversal_graph[player.current_room.id].items())
+
+    while s.size() > 0:
+
+        r, c = s.pop()
+
+        if c == '?':
+            traversal_path.append(r)
+            player.travel(r)
+            traversal_graph[old_room][r] = player.current_room.id
+
+        
+
 
     return traversal_path
 
-traverse_algo(player, traversal_graph, traversal_path)
+traverse_graphing(player, traversal_graph, traversal_path)
 breakpoint()
 # TRAVERSAL TEST
 visited_rooms = set()
