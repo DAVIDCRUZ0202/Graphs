@@ -32,23 +32,22 @@ traversal_path = []
 
 def dft(player, traversal_graph, traversal_path):
     traversal_graph[player.current_room.id] = {exit : "?" for exit in player.current_room.get_exits()}
+    print(traversal_graph)
     s = Stack()
     visited = set()
     s.push(random.choice(player.current_room.get_exits()))
     while s.size() > 0:
         move = s.pop()
-        old_room_id = player.current_room.id
-        if traversal_graph[player.current_room.id][move] == '?':
-            traversal_path.append(move)
-            player.travel(move)
-            traversal_graph[old_room_id][move] = player.current_room.id
-            #traversal_graph[player.current_room.id]
+        if player.travel(move) not in visited:
+            traversal_graph[player.current_room.id][move] = player.travel(move)
+            visited.add(player.current_room.id)
+            visited.add(player.travel(move))
 
     return traversal_path
 
 
 
-dft(player, traversal_graph)
+dft(player, traversal_graph, traversal_path)
 # TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
