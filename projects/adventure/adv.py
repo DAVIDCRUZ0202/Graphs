@@ -29,6 +29,24 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_graph = {}
 traversal_path = []
+def bfs(self, player_current_room, player_target_room):
+    to_visit = Queue()
+    to_visit.enqueue(player.current_room)
+
+    visited = set()
+
+    while to_visit.size() > 0:
+
+        v = to_visit.dequeue()
+
+        v2 = v[-1]
+
+        if v2 not in visited:
+            if v2 == target_room:
+                return v
+            visited.add(v2)
+
+            for neighber in self.
 
 def dft(player, traversal_graph, traversal_path):
     traversal_graph[player.current_room.id] = {exit : "?" for exit in player.current_room.get_exits()}
@@ -36,6 +54,7 @@ def dft(player, traversal_graph, traversal_path):
     s = Stack()
     visited = set()
     s.push(random.choice(player.current_room.get_exits()))
+    
     while s.size() > 0:
         move = s.pop()
         if player.travel(move) not in visited:
